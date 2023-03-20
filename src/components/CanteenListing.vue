@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col v-for="canteen in canteens" :key="canteen" cols="6">
-      <v-card @click="onClickCanteen(canteen)" min-height="200">
+      <v-card variant="tonal" @click="onClickCanteen(canteen)" min-height="200">
           <v-card-text>{{ canteen }}</v-card-text>
         </v-card>
     </v-col>
@@ -23,8 +23,9 @@
     console.log("Click Card", canteen)
     if (canteen !== "The Terrace") { 
       emit("error-added")
+      emit("canteen-selected", "")
     } else {
-      emit("canteen-selected")
+      emit("canteen-selected", canteen)
     }
   }
 </script>

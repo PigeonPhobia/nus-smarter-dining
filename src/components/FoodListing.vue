@@ -1,11 +1,12 @@
 <template>
-  <v-row>
+  <v-row v-if="currentStall === 'Fried Rice' || currentStall === 'Beverage'">
     <v-col v-for="food in foods" :key="food" cols="12">
-      <v-card @click="onClickFood(food)">
+      <v-card variant="tonal" @click="onClickFood(food)">
         <v-card-text>{{ food }}</v-card-text>
       </v-card>
     </v-col>
   </v-row>
+  <v-alert v-else text="Not included in experiment" type="warning"></v-alert>
 </template>
   
 <script setup>

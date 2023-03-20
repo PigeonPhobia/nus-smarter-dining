@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar color="orange">
+    <v-app-bar color="orange" style="height: 100px;">
       <v-btn @click="onBackButton">Back</v-btn>
       <v-spacer></v-spacer>
       <v-btn @click="onClickCart">Cart</v-btn>
@@ -8,13 +8,14 @@
 
     <v-container style="padding-top: 100px;">
       <CanteenListing 
-        v-if="page === 'canteen'" 
-        @error-added="onErrorAdded" 
+        v-if="page === 'canteen'"
+        @error-added="onErrorAdded"
         @canteen-selected="onCanteenSelected"
       >
       </CanteenListing>
       <StallListing
         v-else-if="page === 'stall'" 
+        :currentCanteen="currentCanteen" 
         @error-added="onErrorAdded" 
         @stall-selected="onStallSelected"
       >
@@ -26,22 +27,43 @@
         @food-selected="onFoodSelected"
       >
       </FoodListing>
+      <AddFoodPage
+        v-else-if="page === 'add-food'"
+        :currentFood="currentFood" 
+        @food-added="onFoodAdded"
+      >
+      </AddFoodPage>
+      <CartListing
+        v-else-if="page === 'cart'"
+        :cartFood="cartFood" 
+        @check-out="onCheckOut"
+      >
+      </CartListing>
     </v-container>
   </v-app>
 </template>
 
 <script setup>
   import { ref } from 'vue'
+  import AddFoodPage from './components/AddFoodPage.vue';
   import CanteenListing from './components/CanteenListing.vue';
+  import CartListing from './components/CartListing.vue';
   import FoodListing from './components/FoodListing.vue';
   import StallListing from './components/StallListing.vue';
 
-  const pages = ["canteen", "stall", "food", "cart"]
+  const pages = ["canteen", "stall", "food", "add-food", "cart"]
   let page = ref("canteen")
   function onBackButton () {
     console.log("Click Back!!!")
     if (page.value === 'canteen') {
       console.log("Already in canteen listing, break")
+      return
+    }
+    if (page.value === 'cart') {
+      console.log("Current page is cart")
+      page.value = "canteen"
+      console.log("Back to canteen page")
+      return
     }
     const idx = pages.indexOf(page.value)
     console.log("Current page no", idx)
@@ -55,7 +77,11 @@
     console.log("Error added! Error: ", error)
   }
   
-  function onCanteenSelected () {
+  let currentCanteen = ref("")
+  function onCanteenSelected (canteen) {
+    console.log("Before Select Canteen,", currentCanteen.value)
+    currentCanteen.value = canteen
+    console.log("After Select Canteen,", currentCanteen.value)
     console.log("Go to stall page")
     page.value = "stall"
   }
@@ -74,9 +100,27 @@
     console.log("Before Select Food,", currentFood.value)
     currentFood.value = food
     console.log("After Select Food,", currentFood.value)
+    console.log("Go to add food page")
+    page.value = "add-food"
+  }
+
+  let cartFood = ref({})
+  function onFoodAdded (food) {
+    console.log("Food added!", food)
+    cartFood.value[food] = 1
+    console.log("Current food in cart:", cartFood.value)
+    console.log("Go to food page")
+    page.value = "food"
   }
 
   function onClickCart () {
     console.log("Click Cart!!!")
+    console.log("Go to cart page")
+    page.value = "cart"
+  }
+
+  const startTime = new Date().getTime()
+  function onCheckOut () {
+    console.log("Final Check Out, log total time")
   }
 </script>
