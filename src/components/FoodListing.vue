@@ -53,9 +53,17 @@
     "Iced Wintermelon",
     "Soya"
   ]
+
+  const foodMap = {
+    "ab": ["Plant-based Tomato Mushroom Meatball Rice Bowl", "Hot Pearl Barley"],
+    "cd": ["Egg Fried Rice", "Iced Lime Juice"],
+    "ef": ["Beef Bulgogi with Tempura Rice Set", "Iced Wintermelon"]
+  }
   function onClickFood (food) {
     console.log("Click food", food)
-    const allowedFoods = ["Plant-based Tomato Mushroom Meatball Rice Bowl", "Egg Fried Rice"]
+    const urlParams = new URLSearchParams(window.location.search)
+    const foodKey = urlParams.get("food")
+    const allowedFoods = foodMap[foodKey] || []
     if (!allowedFoods.includes(food)) { 
       emit("error-added")
       emit("food-selected", "")

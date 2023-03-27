@@ -39,6 +39,7 @@
         @check-out="onCheckOut"
       >
       </CartListing>
+      <v-alert v-else-if="page === 'final'" type="success" :text="finalMessage"></v-alert>
       <v-btn 
         v-if="!cartBtnTop"
         color="orange" 
@@ -68,7 +69,7 @@
   const cartBtnSize = ['ts', 'bs'].includes(cartBtn) ? "small" : "x-large"
   const cartBtnTop = ['ts', 'tl'].includes(cartBtn)
 
-  const pages = ["canteen", "stall", "food", "add-food", "cart"]
+  const pages = ["canteen", "stall", "food", "add-food", "cart", "final"]
   let page = ref("canteen")
   function onBackButton () {
     console.log("Click Back!!!")
@@ -143,8 +144,15 @@
     page.value = "cart"
   }
 
+  let finalMessage = ref("Please wait for final logging...")
   const startTime = new Date().getTime()
   function onCheckOut () {
-    console.log("Final Check Out, log total time")
+    console.log("Final Check Out, go to final page, log total time")
+    page.value = "final"
+    setTimeout(() => {
+      console.log("logging done, change message")
+      finalMessage.value = "Logging is done, please close the tab and continue the experiment. Thank you!"
+    }, 3000)
+    
   }
 </script>
