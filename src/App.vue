@@ -69,6 +69,9 @@
   const cartBtnSize = ['ts', 'bs'].includes(cartBtn) ? "small" : "x-large"
   const cartBtnTop = ['ts', 'tl'].includes(cartBtn)
 
+  const activation = urlParams.get("activation")
+  const gotoCart = activation === "auto"
+
   const pages = ["canteen", "stall", "food", "add-food", "cart", "final"]
   let page = ref("canteen")
   function onBackButton () {
@@ -134,8 +137,13 @@
     console.log("Food added!", food)
     cartFood.value[food] = 1
     console.log("Current food in cart:", cartFood.value)
-    console.log("Go to food page")
-    page.value = "food"
+    if (gotoCart) {
+      console.log("Auto activation: go to cart page")
+      page.value = "cart"
+    } else {
+      console.log("Manual activation: go to food page")
+      page.value = "food"
+    }
   }
 
   function onClickCart () {
