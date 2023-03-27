@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col v-for="canteen in canteens" :key="canteen" cols="6">
-      <v-card variant="tonal" @click="onClickCanteen(canteen)" min-height="200">
+      <v-card variant="tonal" @click="onClickCanteen(canteen)" min-height="150">
           <v-card-text>{{ canteen }}</v-card-text>
         </v-card>
     </v-col>

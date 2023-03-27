@@ -1,7 +1,7 @@
 <template>
   <v-row v-if="currentCanteen === 'The Terrace'">
     <v-col v-for="stall in stalls" :key="stall" cols="6">
-      <v-card variant="tonal" @click="onClickStall(stall)" min-height="200">
+      <v-card variant="tonal" @click="onClickStall(stall)" min-height="150">
         <v-card-text>{{ stall }}</v-card-text>
       </v-card>
     </v-col>
@@ -28,11 +28,13 @@
     "Fried Rice",
     "Curry Rice Set",
     "Take n Go",
-    "Beverage"
+    "Breakfast",
+    "Dessert & Snacks",
+    "Beverages"
   ]
   function onClickStall (stall) {
     console.log("Click stall", stall)
-    if (stall !== "Fried Rice" && stall !== "Beverage") { 
+    if (stall !== "Fried Rice" && stall !== "Beverages") { 
       emit("error-added")
       emit("stall-selected", "")
     } else {
