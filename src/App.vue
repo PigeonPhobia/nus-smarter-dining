@@ -1,12 +1,12 @@
 <template>
   <v-app>
-    <v-app-bar color="orange" style="height: 100px;">
+    <v-app-bar color="orange" :style="headerStyle">
       <v-btn @click="onBackButton">Back</v-btn>
       <v-spacer></v-spacer>
-      <v-btn @click="onClickCart">Cart</v-btn>
+      <v-btn v-if="cartBtnTop" :size="cartBtnSize" @click="onClickCart">Cart</v-btn>
     </v-app-bar>
 
-    <v-container style="padding-top: 100px;">
+    <v-container :style="containerStyle">
       <CanteenListing 
         v-if="page === 'canteen'"
         @error-added="onErrorAdded"
@@ -39,6 +39,14 @@
         @check-out="onCheckOut"
       >
       </CartListing>
+      <v-btn 
+        v-if="!cartBtnTop"
+        color="orange" 
+        :size="cartBtnSize" 
+        @click="onClickCart" 
+        style="position: fixed; right: 20px; bottom: 20px;">
+        Cart
+      </v-btn>
     </v-container>
   </v-app>
 </template>
@@ -50,6 +58,15 @@
   import CartListing from './components/CartListing.vue';
   import FoodListing from './components/FoodListing.vue';
   import StallListing from './components/StallListing.vue';
+  
+  const urlParams = new URLSearchParams(window.location.search)
+  const header = urlParams.get("header")
+  const headerStyle = header === "small" ? "height: 100px;" : "height: 200px;"
+  const containerStyle = header === "small" ? "padding-top: 100px;" : "padding-top: 200px;"
+
+  const cartBtn = urlParams.get("cart")
+  const cartBtnSize = ['ts', 'bs'].includes(cartBtn) ? "small" : "x-large"
+  const cartBtnTop = ['ts', 'tl'].includes(cartBtn)
 
   const pages = ["canteen", "stall", "food", "add-food", "cart"]
   let page = ref("canteen")
