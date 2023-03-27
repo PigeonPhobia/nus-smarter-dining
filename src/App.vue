@@ -61,8 +61,15 @@
     }
     if (page.value === 'cart') {
       console.log("Current page is cart")
-      page.value = "canteen"
-      console.log("Back to canteen page")
+      if (currentFood.value !== "") {
+        console.log("Food is not empty")
+        page.value = "food"
+        console.log("Back to food page")
+      } else {
+        console.log("Food is empty")
+        page.value = "canteen"
+        console.log("Back to canteen page")
+      }
       return
     }
     const idx = pages.indexOf(page.value)
