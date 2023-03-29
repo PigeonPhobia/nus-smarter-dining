@@ -63,7 +63,7 @@
   const urlParams = new URLSearchParams(window.location.search)
   const header = urlParams.get("header")
   const headerStyle = header === "small" ? "height: 100px;" : "height: 200px;"
-  const containerStyle = header === "small" ? "padding-top: 100px;" : "padding-top: 200px;"
+  const containerStyle = header === "small" ? "padding-top: 120px;" : "padding-top: 220px;"
 
   const cartBtn = urlParams.get("cart")
   const cartBtnSize = ['ts', 'bs'].includes(cartBtn) ? "small" : "x-large"
@@ -152,11 +152,22 @@
     page.value = "cart"
   }
 
+  const foodKey = urlParams.get("food")
   let finalMessage = ref("Please wait for final logging...")
   const startTime = new Date().getTime()
   function onCheckOut () {
     console.log("Final Check Out, go to final page, log total time")
+
+    const endTime = new Date().getTime()
     page.value = "final"
+    loggingjs.logEvent(null, 'final-result-log', {
+		  header,
+		  cart: cartBtn,
+		  activation,
+		  food: foodKey,
+      timeTaken: (endTime - startTime) / 1000,
+      error
+	  });
     setTimeout(() => {
       console.log("logging done, change message")
       finalMessage.value = "Logging is done, please close the tab and continue the experiment. Thank you!"
