@@ -180,6 +180,7 @@
   }
 
   const foodKey = urlParams.get("food")
+  const user = urlParams.get("user") || ""
   let finalMessage = ref("Please wait for final logging...")
   const startTime = new Date().getTime()
   function onCheckOut () {
@@ -189,6 +190,7 @@
     page.value = "final"
     scrollToTop()
     loggingjs.logEvent(null, 'final-result-log', {
+      user,
 		  header,
 		  cart: cartBtn,
 		  activation,
