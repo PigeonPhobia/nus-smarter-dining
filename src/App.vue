@@ -7,6 +7,7 @@
     </v-app-bar>
 
     <v-container :style="containerStyle">
+      <h1> {{ pageTitle }} </h1>
       <CanteenListing 
         v-if="page === 'canteen'"
         @error-added="onErrorAdded"
@@ -53,7 +54,7 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import AddFoodPage from './components/AddFoodPage.vue';
   import CanteenListing from './components/CanteenListing.vue';
   import CartListing from './components/CartListing.vue';
@@ -104,6 +105,21 @@
     scrollToTop()
     console.log("Back to page", pages[idx - 1])
   }
+
+  let pageTitle = computed(() => {
+    switch (page.value) {
+      case "canteen":
+        return "Canteen Listing"
+      case "stall":
+        return "Stall Listing"
+      case "food":
+        return "Fooding Listing"
+      case "cart":
+        return "Cart"
+      default:
+        return ""
+    }
+  })
 
   let error = 0
   function onErrorAdded () {
