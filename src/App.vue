@@ -59,6 +59,10 @@
   import CartListing from './components/CartListing.vue';
   import FoodListing from './components/FoodListing.vue';
   import StallListing from './components/StallListing.vue';
+
+  function scrollToTop () {
+    window.scrollTo(0, 0)
+  }
   
   const urlParams = new URLSearchParams(window.location.search)
   const header = urlParams.get("header")
@@ -91,11 +95,13 @@
         page.value = "canteen"
         console.log("Back to canteen page")
       }
+      scrollToTop()
       return
     }
     const idx = pages.indexOf(page.value)
     console.log("Current page no", idx)
     page.value = pages[idx - 1]
+    scrollToTop()
     console.log("Back to page", pages[idx - 1])
   }
 
@@ -112,6 +118,7 @@
     console.log("After Select Canteen,", currentCanteen.value)
     console.log("Go to stall page")
     page.value = "stall"
+    scrollToTop()
   }
 
   let currentStall = ref("")
@@ -121,6 +128,7 @@
     console.log("After Select Stall,", currentStall.value)
     console.log("Go to food page")
     page.value = "food"
+    scrollToTop()
   }
 
   let currentFood = ref("")
@@ -130,6 +138,7 @@
     console.log("After Select Food,", currentFood.value)
     console.log("Go to add food page")
     page.value = "add-food"
+    scrollToTop()
   }
 
   let cartFood = ref({})
@@ -144,12 +153,14 @@
       console.log("Manual activation: go to food page")
       page.value = "food"
     }
+    scrollToTop()
   }
 
   function onClickCart () {
     console.log("Click Cart!!!")
     console.log("Go to cart page")
     page.value = "cart"
+    scrollToTop()
   }
 
   const foodKey = urlParams.get("food")
@@ -160,6 +171,7 @@
 
     const endTime = new Date().getTime()
     page.value = "final"
+    scrollToTop()
     loggingjs.logEvent(null, 'final-result-log', {
 		  header,
 		  cart: cartBtn,
