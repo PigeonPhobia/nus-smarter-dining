@@ -109,11 +109,11 @@
   let pageTitle = computed(() => {
     switch (page.value) {
       case "canteen":
-        return "Canteen Listing"
+        return "Canteens Nearby"
       case "stall":
-        return "Stall Listing"
+        return "Stalls in Canteen"
       case "food":
-        return "Fooding Listing"
+        return "Foods in Stall"
       case "cart":
         return "Cart"
       default:
